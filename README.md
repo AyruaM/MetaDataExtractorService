@@ -1,40 +1,105 @@
-📁 Folder Structure
-document-metadata-extractor-api
-│
-├── MetaDataExtractorService
-│   ├── Controllers
-│   ├── Data
-│   ├── DataFiles
-│   ├── Migrations
-│   ├── Model
-│   ├── Services
-│   ├── tessdata
-│   ├── appsettings.json
-│   ├── Program.cs
-│   └── MetaDataExtractorService.csproj
-│
-├── .gitignore
-├── README.md
-└── MetaDataExtractorService.sln
+📄 Document Metadata Extractor API
 
-🧩 Steps to Create Backend Repo
-1. Create a new folder
-mkdir document-metadata-extractor-api
+ASP.NET Core (.NET 10) | EF Core | OCR
+
+Overview
+
+Document Metadata Extractor API is a backend service built with ASP.NET Core (.NET 10) and Entity Framework Core.
+It is responsible for extracting, processing, and persisting metadata from documents, including OCR-based text extraction.
+
+This API is designed to work as a standalone service and integrates seamlessly with an Angular frontend.
+
+🧱 Tech Stack
+
+.NET 10
+
+ASP.NET Core Web API
+
+Entity Framework Core
+
+OCR (Tesseract)
+
+Swagger / OpenAPI
+
+SQL Server  (configurable)
+
+🚀 Getting Started
+1️⃣ Prerequisites
+
+.NET SDK 10.x
+
+SQL Server or SQLite
+
+Git
+
+(Optional) EF Core CLI tools
+
+dotnet tool install --global dotnet-ef
+
+2️⃣ Clone the Repository
+git clone https://github.com/<your-username>/document-metadata-extractor-api.git
 cd document-metadata-extractor-api
 
-2. Move backend files
+3️⃣ Restore & Build
+dotnet restore
+dotnet build
 
-Move only your .NET files into this folder:
+4️⃣ Database Setup
 
-mv MetaDataExtractorService MetaDataExtractorService.sln document-metadata-extractor-api/
+Apply EF Core migrations:
 
-3. Initialize Git
-git init
-git add .
-git commit -m "Initial commit: .NET 10 Document Metadata Extractor API"
+dotnet ef database update --project MetaDataExtractorService
 
-4. Add .gitignore
+5️⃣ Run the API
+dotnet run --project MetaDataExtractorService
 
-Use Microsoft’s official template:
 
-dotnet new gitignore
+The API will start at:
+
+https://localhost:5001
+
+
+Swagger UI:
+
+https://localhost:5001/swagger
+
+🔌 API Endpoints (Sample)
+Method	Endpoint	Description
+GET	/api/ping	Health check
+POST	/api/extractor/upload	Upload document
+GET	/api/documents	Retrieve extracted metadata
+🧠 OCR Configuration
+
+OCR uses Tesseract.
+
+Language data stored in:
+
+/MetaDataExtractorService/tessdata
+
+
+Default language:
+
+eng.traineddata
+
+
+You can add more languages by placing additional .traineddata files in this folder.
+
+
+⚙️ Configuration
+appsettings.json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=.;Database=MetaDataExtractorDb;Trusted_Connection=True;"
+  },
+  "OCR": {
+    "TessDataPath": "tessdata"
+  }
+}
+
+🧪 Development Notes
+
+WeatherForecastController is a template controller and can be removed safely
+
+DataFiles is used for temporary or persisted document storage
+
+Business logic is isolated in the Services layer
